@@ -103,7 +103,14 @@ local function HandleUnitSelection(selectedUnits, targetID, needSelection)
 	
 	local unitDefID = Spring.GetUnitDefID(targetID)
 	if unitDefID and ctrl then
-		local typeUnits = Spring.GetTeamUnitsByDefs(Spring.GetMyTeamID(), unitDefID)
+		local teamID
+		if Spring.GetSpectatingState() then
+			teamID = Spring.GetUnitTeam(targetID)
+		else
+			teamID = Spring.GetMyTeamID()
+		end
+
+		local typeUnits = Spring.GetTeamUnitsByDefs(teamID, unitDefID)
 		local unitList = {}
 		for i = 1, #typeUnits do
 			local unitID = typeUnits[i]
